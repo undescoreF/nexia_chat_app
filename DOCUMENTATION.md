@@ -412,7 +412,6 @@ Recommended Firebase integrations:
 - [ ] **MIME Validation:** Verify file types before upload
 - [ ] **Backup Disabled:** Set `android:allowBackup="false"` in manifest
 
----
 
-<!--*This documentation reflects the current state of the Nexia Chat application as of March 2026. For questions or contributions, please open an issue on GitHub.*-->
-```
+
+

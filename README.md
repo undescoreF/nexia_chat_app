@@ -242,6 +242,39 @@ Basic security checks were performed on:
 
 > This project does not claim full end-to-end encryption and is intended for **educational purposes only**.
 
+## Future Improvements
+
+The app is functional, but there are several planned improvements to enhance performance, usability, and security:  
+
+- **Enhanced Audio & Video Calls**  
+  - Improve call quality and stability on mobile networks.  
+  - Refine UI/UX for call screens (in-call controls, participant info, call duration).  
+  - Add group calling support.  
+
+- **End-to-End Encryption (E2EE)**  
+  - Implement full encryption for messages and media to ensure privacy.  
+  - Encrypt video and audio streams during WebRTC calls.  
+  - Secure encryption key management.  
+
+- **Advanced Data Security**  
+  - Harden Firebase rules for fine-grained access control.   
+  - Improve local cache encryption and storage security.  
+
+- **User Experience Enhancements**  
+  - Add chat reactions and message editing/deletion.  
+  - Smooth animations for sending/receiving messages and file uploads.  
+  - Multi-device support (sync across phone and tablet). 
+
+- **Performance & Scalability**  
+  - Optimize database queries for large message histories.  
+  - Reduce app startup time and memory usage.  
+  
+- **Analytics & Monitoring**  
+  - Integrate crash reporting and performance monitoring.  
+  - Track app usage metrics for future optimization.  
+
+
 
   
+
 

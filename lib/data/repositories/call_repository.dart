@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
@@ -52,11 +53,11 @@ class CallRepository {
     };
 
     _peerConnection!.onTrack = (event) {
-      print("[RECEVEUR] onTrack déclenché !");
-      print("Nombre de streams : ${event.streams.length}");
+      debugPrint("[RECEVEUR] onTrack déclenché !");
+      debugPrint("Nombre de streams : ${event.streams.length}");
       if (event.streams.isNotEmpty) {
         final stream = event.streams.first;
-        print(
+        debugPrint(
           "Pistes reçues : ${stream.getTracks().map((t) => t.kind).toList()}",
         );
         onRemoteStream?.call(stream);
@@ -104,9 +105,9 @@ class CallRepository {
   }
 
   Future<void> addLocalTracks(MediaStream stream) async {
-    print("Ajout de ${stream.getTracks().length} pistes locales");
+    //print("Ajout de ${stream.getTracks().length} pistes locales");
     for (var track in stream.getTracks()) {
-      print("Ajout de la piste : ${track.kind}");
+    //  print("Ajout de la piste : ${track.kind}");
       _peerConnection!.addTrack(track, stream);
     }
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -31,7 +32,7 @@ class NotificationController extends GetxController {
     await _localNotifications.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (payload) {
-        print('Notification clicked: $payload');
+        debugPrint('Notification clicked: $payload');
       },
     );
   }

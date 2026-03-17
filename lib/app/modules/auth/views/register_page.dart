@@ -106,7 +106,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         if (value == null || value.isEmpty)
                           return loc.register_password_hint;
-                        if (value.length < 6) return loc.login_password_min;
+                        if (value.length < 8) return loc.login_password_min;
+                        if (!RegExp(r'^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$').hasMatch(value)) {
+                          return 'Password must contain at least one uppercase letter, one number, and one special character';
+                        }
                         return null;
                       },
                     ),

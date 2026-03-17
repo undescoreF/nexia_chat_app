@@ -41,7 +41,7 @@ class ProfileController extends GetxController {
       userModel.value = data;
       photo_url.value = userModel.value!.profileImageUrl!;
     } catch (e) {
-      print("Error profile : $e");
+      debugPrint("Error profile : $e");
     } finally {
       isLoading.value = false;
     }

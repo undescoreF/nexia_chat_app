@@ -28,7 +28,7 @@ class ThemeController extends GetxController {
       _isDarkMode.value = savedTheme;
       // }
     } catch (e) {
-      print('Erreur lors du chargement du thème: $e');
+      debugPrint('Erreur lors du chargement du thème: $e');
       _isDarkMode.value = false;
     }
   }
@@ -62,7 +62,7 @@ class ThemeController extends GetxController {
     try {
       _storage.write(_themeKey, _isDarkMode.value);
     } catch (e) {
-      print('Erreur lors de la sauvegarde du thème: $e');
+      debugPrint('Erreur lors de la sauvegarde du thème: $e');
     }
   }
 

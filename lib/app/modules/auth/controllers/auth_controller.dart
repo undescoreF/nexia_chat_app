@@ -13,6 +13,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../utils/firebase_error_helper.dart';
 import '../../calls/controller/call_controllers.dart';
 import '../../chat/controller/notification_controller.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,7 +21,13 @@ class AuthController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var isLoading = false.obs;
   User? get currentUser => _auth.currentUser;
-  String get currentUserId => _auth.currentUser!.uid;
+  //String get currentUserId => _auth.currentUser!.uid;
+  String get currentUserId {
+    if (_auth.currentUser != null) {
+      return _auth.currentUser!.uid;
+    }
+    return 'UNAUTHENTICATED';
+  }
   // final NotificationController _notifCtrl = Get.find<NotificationController>();
   //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -44,9 +51,11 @@ class AuthController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-      await FirebaseAuth.instance.setSettings(
-        appVerificationDisabledForTesting: true,
-      );
+      if (kDebugMode) {
+        await FirebaseAuth.instance.setSettings(
+          appVerificationDisabledForTesting: true,
+        );
+      }
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -60,7 +69,7 @@ class AuthController extends GetxController {
       try {
         await user.sendEmailVerification();
       } catch (e) {
-        print("erreur$e");
+        debugPrint("erreur$e");
       }
 
       return AuthResult(

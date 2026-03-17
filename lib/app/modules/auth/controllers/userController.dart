@@ -44,7 +44,7 @@ class UserController extends GetxController with WidgetsBindingObserver {
       isOnline.value = userData.isOnline;
       lastSeen.value = userData.lastSeen!;
     } else {
-      print("je suis null");
+      debugPrint("je suis null");
     }
   }
 
@@ -82,10 +82,10 @@ class UserController extends GetxController with WidgetsBindingObserver {
         isOnline.value = userData.isOnline;
         lastSeen.value = userData.lastSeen!;
       } else {
-        print('Utilisateur non trouvé');
+        debugPrint('Utilisateur non trouvé');
       }
     } catch (e) {
-      print('Erreur lors de la récupération de l\'utilisateur: $e');
+      debugPrint('Erreur lors de la récupération de l\'utilisateur: $e');
     }
   }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 
@@ -19,10 +20,10 @@ class FileService {
       final result = await OpenFile.open(localPath);
 
       if (result.type == ResultType.noAppToOpen) {
-        print("Aucune application pour ouvrir ce fichier");
+        debugPrint("Aucune application pour ouvrir ce fichier");
       }
     } catch (e) {
-      print("Erreur lors de l'ouverture du fichier : $e");
+      debugPrint("Erreur lors de l'ouverture du fichier : $e");
     }
   }
 

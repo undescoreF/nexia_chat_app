@@ -93,7 +93,7 @@ class OtherProfileView extends StatelessWidget {
                   width: 20.w,
                   height: 70,
                   iconColor: Colors.red,
-                  onTap: () => print("Vidéo tapped"),
+                  onTap: () => debugPrint("Vidéo tapped"),
                 ),
                 SizedBox(width: 2.w),
                 GlassButton(

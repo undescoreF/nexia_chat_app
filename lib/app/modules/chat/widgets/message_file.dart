@@ -65,7 +65,6 @@ class MessageGenericFileWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final fileService = FileService();
-        print("okok");
         fileService.openDocumentFile(filePathOrUrl: url, fileName: fileName);
       },
       child: Stack(

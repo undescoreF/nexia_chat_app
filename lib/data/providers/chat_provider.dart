@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mime/mime.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../../data/models/message_model.dart';
@@ -110,7 +111,7 @@ class ChatProvider {
         );
       }
     } catch (e) {
-      print("Erreur envoi message: $e");
+      debugPrint("Erreur envoi message: $e");
     }
   }
 
@@ -265,7 +266,7 @@ class ChatProvider {
       }
       return [];
     } catch (e) {
-      print("Erreur récupération OneSignal IDs: $e");
+      debugPrint("Erreur récupération OneSignal IDs: $e");
       return [];
     }
   }

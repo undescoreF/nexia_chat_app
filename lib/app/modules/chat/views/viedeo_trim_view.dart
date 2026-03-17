@@ -91,7 +91,7 @@ class _TrimmerViewState extends State<TrimmerView> {
                       ? null
                       : () async {
                           _saveVideo().then((outputPath) {
-                            print('OUTPUT PATH: $outputPath');
+                            debugPrint('OUTPUT PATH: $outputPath');
                             final snackBar = SnackBar(
                               content: Text('Video Saved successfully'),
                             );

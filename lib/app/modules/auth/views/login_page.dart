@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
-    return WillPopScope(
-      onWillPop: () async => !_authController.isLoading.value,
+    return PopScope(
+      canPop: !_authController.isLoading.value,
       child: Stack(
         children: [
           Scaffold(

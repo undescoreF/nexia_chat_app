@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
 import 'package:nexachat/data/models/user_model.dart';
 import 'package:nexachat/data/repositories/call_repository.dart';
 import 'package:nexachat/app/modules/calls/views/call_view.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../data/providers/user_provider.dart';
 import '../../../../data/repositories/user_repository.dart';
 import '../../../services/webrtc_service.rtc.dart';
@@ -36,6 +38,22 @@ class CallControllers extends GetxController {
   void onInit() {
     super.onInit();
     _initializeUserController();
+  }
+  @override
+  void onClose() {
+    // annulations ses streams pour éviter les memory leaks
+    _incomingCallSubscription?.cancel();
+    _rtcChangesSubscription?.cancel();
+
+    //nettoyage du webrtc
+    webRTCService_.endCall();
+
+    // reset states
+    isInCall.value = false;
+    incomingCall.value = false;
+    callStatus.value = '';
+
+    super.onClose();
   }
 
   void _initializeUserController() {
@@ -98,6 +116,17 @@ class CallControllers extends GetxController {
     required String myId,
     required String otherId,
   }) async {
+    final cameraStatus = await Permission.camera.status;
+    final micStatus = await Permission.microphone.status;
+
+    if (!cameraStatus.isGranted || !micStatus.isGranted) {
+      final statuses = await [Permission.camera, Permission.microphone].request();
+      if (!statuses.values.every((s) => s.isGranted)) {
+        Get.snackbar("Error", "Permissions required for video calls");
+        rejectCall(myId, otherId);
+        return;
+      }
+    }
     try {
       await webRTCService_.initCall(
         myId: myId,
@@ -125,7 +154,7 @@ class CallControllers extends GetxController {
       incomingCall.value = false;
       _listenForRtcChanges(myId, otherId);
     } catch (e) {
-      print('Erreur lors de l\'acceptation de l\'appel : $e');
+      debugPrint('Erreur lors de l\'acceptation de l\'appel : $e');
     }
   }
 
@@ -139,7 +168,7 @@ class CallControllers extends GetxController {
         'rejected',
       );
     } catch (e) {
-      print('Erreur lors de la fermeture de l\'appel : $e');
+      debugPrint('Erreur lors de la fermeture de l\'appel : $e');
     } finally {
       _resetState();
       shouldCloseCallView.value = true;
@@ -159,7 +188,7 @@ class CallControllers extends GetxController {
           .doc(callRepository_.callProvider_.getCallDocId(myId, otherId))
           .update({'endedAt': FieldValue.serverTimestamp()});
     } catch (e) {
-      print('Erreur lors de la fermeture de l\'appel : $e');
+      debugPrint('Erreur lors de la fermeture de l\'appel : $e');
     } finally {
       _resetState();
       shouldCloseCallView.value = true;

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
 
@@ -98,7 +99,7 @@ class WebRTCService {
       localRenderer.srcObject = null;
       await _callRepository.dispose();
     } catch (e) {
-      print("Erreur lors de la fermeture de l'appel: $e");
+      debugPrint("Erreur lors de la fermeture de l'appel: $e");
     } finally {
       _isInitialized = false;
     }

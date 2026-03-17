@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/user_model.dart';
 
@@ -121,7 +122,7 @@ class UserProvider {
     }
   }
 
-  Stream<List<Map<String, dynamic>>> searchUsersStream(String query) {
+ /* Stream<List<Map<String, dynamic>>> searchUsersStream(String query) {
     try {
       return _firestore
           .collection('users')
@@ -137,6 +138,29 @@ class UserProvider {
     } catch (e) {
       return Stream.error("Erreur recherche utilisateurs : $e");
     }
+  }*/
+  Stream<List<Map<String, dynamic>>> searchUsersStream(String query) {
+    final currentUid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (currentUid == null) {
+      return Stream.value([]);
+    }
+
+    return _firestore
+        .collection('users')
+        .where("name", isGreaterThanOrEqualTo: query)
+        .where("name", isLessThanOrEqualTo: "$query\uf8ff")
+        .snapshots()
+        .map((snapshot) {
+      final users = snapshot.docs.map((d) => d.data()).toList();
+      return users.where((u) => u['uid'] != currentUid).toList();
+    })
+    // catch les erreurs ASYNCHRONES du stream
+        .handleError((error, stackTrace) {
+      debugPrint('❌ Search stream error: $error');
+      debugPrint('Stack: $stackTrace');
+      return <Map<String, dynamic>>[];
+    });
   }
 
   ///get current user

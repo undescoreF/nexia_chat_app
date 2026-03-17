@@ -129,6 +129,26 @@ class ChatController extends GetxController {
   Future<void> sendFile(File file) async {
     if (_currentChatId == null) return;
 
+    const maxSize = 20 * 1024 * 1024; // 20MB
+    try {
+      if (file.lengthSync() > maxSize) {
+        Get.snackbar("Erreur", "File size must be less than 20MB");
+        return;
+      }
+    } catch (e) {
+      Get.snackbar("Erreur", "Unable to read file size");
+      return;
+    }
+    final blockedExtensions = [
+      'exe', 'bat', 'scr', 'cmd', 'ps1', 'vbs', 'js', 'sh',  // executables
+      'dll', 'sys', 'com', 'msi',                              // systeme
+    ];
+    final fileExtension = file.path.split('.').last.toLowerCase().trim();
+
+    if (blockedExtensions.contains(fileExtension)) {
+      Get.snackbar("Error", "This file type is not allowed for security reasons");
+      return;
+    }
     final tempId = DateTime.now().millisecondsSinceEpoch.toString();
 
     final tempMessage = MessageModel(
